@@ -7,35 +7,21 @@ import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import { useRef, useState } from 'react';
-import { Container, TextField } from '@mui/material';
+import { useState } from 'react';
+import { Container } from '@mui/material';
 import { createUseStyles } from 'react-jss';
+import EditTodo from './EditTodo';
 
 const useStyles = createUseStyles({
     listItem: {
         padding: "0 16px",
-    },
-    editTextField: {
-        width: "88%",
-        margin: "0 16px"
-    },
+    }
 });
 
 const TodoItem = (props: TodoItemProps) => {
     const classes = useStyles();
     const labelId = `checkbox-list-label-${props.todo.id}`;
     const [isEditActive, setIsEditActive] = useState(false);
-    const editTextRef = useRef<HTMLInputElement>(null);
-
-    const saveTodo = (event: React.KeyboardEvent<HTMLElement>) => {
-        if (event.key === 'Enter') {
-            props.updateTodo(props.todo.id, editTextRef?.current?.value || props.todo.name);
-            if (editTextRef !== null && editTextRef.current !== null) {
-                editTextRef.current.value = '';
-            }
-            setIsEditActive(!isEditActive);
-        }
-    }
 
     return (
         <ListItem
@@ -53,13 +39,7 @@ const TodoItem = (props: TodoItemProps) => {
             }
             disablePadding>
             {isEditActive ?
-                <TextField
-                    className={classes.editTextField}
-                    onClick={(e) => e.stopPropagation()}
-                    label="Edit todo (click enter to save)" variant="standard"
-                    defaultValue={props.todo.name}
-                    onKeyDown={saveTodo}
-                    inputRef={editTextRef} /> :
+                <EditTodo todo={props.todo} updateTodo={props.updateTodo} setIsEditActive={setIsEditActive} /> :
                 <ListItemButton role={undefined} onClick={() => props.markTodo(props.todo.id)} dense>
                     <ListItemIcon>
                         <Checkbox
