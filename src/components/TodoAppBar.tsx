@@ -17,6 +17,7 @@ const useStyles = createUseStyles({
   },
   textHeadline: {
     fontWeight: 'bold',
+    marginLeft: 24
   }
 });
 

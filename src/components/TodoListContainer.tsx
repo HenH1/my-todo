@@ -19,8 +19,8 @@ const useStyles = createUseStyles({
         margin: 0.5
     },
     paper: {
-        padding: '2px 4px', 
-        display: 'flex', 
+        padding: '2px 4px',
+        display: 'flex',
         alignItems: 'center'
     },
     list: {
@@ -121,7 +121,7 @@ const TodoListContainer = () => {
 
     return (
         <Container className={classes.container}>
-            <List sx={{ boxShadow: 3}} className={classes.list} >
+            <List sx={{ boxShadow: 3 }} className={classes.list} >
                 <ListSubheader className={classes.listHeader}>
                     <Paper component="form" className={classes.paper}>
                         <AddTodo newTodoInput={newTodoInput} onClickAdd={onClickAdd} />
@@ -129,10 +129,10 @@ const TodoListContainer = () => {
                         <SearchTodo searchInput={searchInput} onSearchTodo={onSearchTodo} />
                     </Paper>
                 </ListSubheader>
-                {(isSearch ? 
+                {(isSearch ?
                     getFilteredList() : listTodo).map((todo) =>
-                    <TodoItem key={todo.id} todo={todo} markTodo={markTodo} removeTodo={removeTodo} updateTodo={updateTodo} />
-                )}
+                        <TodoItem key={todo.id} todo={todo} markTodo={markTodo} removeTodo={removeTodo} updateTodo={updateTodo} />
+                    )}
             </List>
         </Container>
     );
