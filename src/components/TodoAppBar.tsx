@@ -6,7 +6,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
-  headline: {
+  toolBar: {
     color: "white"
   },
   container: {
@@ -26,7 +26,7 @@ const TodoAppBar = () => {
   return (
     <Box className={classes.container}>
       <AppBar position="static">
-        <Toolbar variant="dense" className={classes.headline}>
+        <Toolbar variant="dense" className={classes.toolBar}>
           <AssignmentIcon className={classes.icon} />
           <Typography variant="h4" component="div" className={classes.textHeadline}>
             My todo list
