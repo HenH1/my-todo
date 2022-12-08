@@ -6,6 +6,7 @@ import AddTodo from "./AddTodo";
 import SearchTodo from "./SearchTodo";
 import TodoItem from "./TodoItem";
 import { createUseStyles } from 'react-jss';
+import { flushSync } from "react-dom";
 
 const useStyles = createUseStyles({
     container: {
@@ -38,13 +39,14 @@ const useStyles = createUseStyles({
 });
 
 
-const TodoListContainer = () => {
+const TodoList = () => {
     const classes = useStyles();
     const [listTodo, setListToDo] = useState<Array<Todo>>([]);
     const [isSearch, setIsSearch] = useState<boolean>();
 
-    const newTodoInput = useRef<HTMLInputElement>(null);
-    const searchInput = useRef<HTMLInputElement>(null);
+    const newTodoInputRef = useRef<HTMLInputElement>(null);
+    const searchInputRef = useRef<HTMLInputElement>(null);
+    const listRef = useRef<HTMLUListElement>(null);
 
     const markTodo = (id: number) => {
         const newTodos = [...listTodo];
@@ -76,7 +78,7 @@ const TodoListContainer = () => {
     };
 
     const onSearchTodo = () => {
-        if (searchInput !== null) {
+        if (searchInputRef !== null) {
             setIsSearch(true);
             // Doing re-render because search input doesn't change if there's text inside.
             setListToDo([...listTodo]);
@@ -88,21 +90,27 @@ const TodoListContainer = () => {
 
     const getFilteredList = () => {
         let searchText: string = "";
-        if (searchInput !== null && searchInput.current !== null) {
-            searchText = searchInput.current.value;
-        }
+        searchText = searchInputRef.current!.value;
+
         // We can use includes for substring or startsWith for the begging of the sentence.
         return listTodo.filter((todo) => todo.name.startsWith(searchText));
-    }
+    };
+
+    const scrollToEnd = () => {
+        listRef.current!.lastElementChild?.scrollIntoView({
+            block: "end", inline: "nearest", behavior: "smooth"
+        });
+    };
 
     const onClickAdd = () => {
         // clears search if exist
-        if (newTodoInput !== null && newTodoInput.current !== null && newTodoInput.current.value !== '') {
-            if (searchInput !== null && searchInput.current !== null) {
-                searchInput.current.value = '';
-            }
-            setListToDo([...listTodo, { id: createNewId(), name: newTodoInput?.current?.value || "", completed: false }]);
-            newTodoInput.current.value = '';
+        if (newTodoInputRef.current!.value !== '') {
+            flushSync(() => {
+                searchInputRef.current!.value = '';
+                setListToDo([...listTodo, { id: createNewId(), name: newTodoInputRef?.current?.value || "", completed: false }]);
+                newTodoInputRef.current!.value = '';
+            });
+            scrollToEnd();
         }
     };
 
@@ -121,12 +129,12 @@ const TodoListContainer = () => {
 
     return (
         <Container className={classes.container}>
-            <List sx={{ boxShadow: 3 }} className={classes.list} >
+            <List sx={{ boxShadow: 3 }} className={classes.list} ref={listRef}>
                 <ListSubheader className={classes.listHeader}>
                     <Paper component="form" className={classes.paper}>
-                        <AddTodo newTodoInput={newTodoInput} onClickAdd={onClickAdd} />
+                        <AddTodo newTodoInputRef={newTodoInputRef} onClickAdd={onClickAdd} />
                         <Divider className={classes.divider} orientation="vertical" />
-                        <SearchTodo searchInput={searchInput} onSearchTodo={onSearchTodo} />
+                        <SearchTodo searchInputRef={searchInputRef} onSearchTodo={onSearchTodo} />
                     </Paper>
                 </ListSubheader>
                 {(isSearch ?
@@ -139,4 +147,4 @@ const TodoListContainer = () => {
 
 }
 
-export default TodoListContainer;
+export default TodoList;

@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material';
 import TodoAppBar from '../components/TodoAppBar';
 import { createUseStyles } from 'react-jss';
 import { theme } from '../theme';
-import TodoListContainer from '../components/TodoListContainer';
+import TodoList from '../components/TodoList';
 
 const useStyles = createUseStyles({
   container: {
@@ -22,7 +22,7 @@ const App = () => {
       <Box component="main" className={classes.container}>
         <Box className={classes.mainScreen}>
           <TodoAppBar />
-          <TodoListContainer />
+          <TodoList />
         </Box >
       </Box>
     </ThemeProvider>

@@ -29,7 +29,7 @@ const AddTodo = (props: AddTodoProps) => {
             <InputBase
                 placeholder="Add todo"
                 inputProps={{ 'aria-label': 'add todo' }}
-                inputRef={props.newTodoInput}
+                inputRef={props.newTodoInputRef}
                 onKeyDown={checkIfEnterPressed}
                 className={classes.textField}
             />
@@ -41,7 +41,7 @@ const AddTodo = (props: AddTodoProps) => {
 }
 
 interface AddTodoProps {
-    newTodoInput: React.Ref<any> | undefined;
+    newTodoInputRef: React.Ref<HTMLInputElement> | undefined;
     onClickAdd: () => void;
 }
 export default AddTodo;

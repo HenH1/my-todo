@@ -33,7 +33,7 @@ const SearchTodo = (props: SearchTodoProps) => {
                 className={classes.textSerach}
                 placeholder="Search todo"
                 inputProps={{ 'aria-label': 'search todo' }}
-                inputRef={props.searchInput}
+                inputRef={props.searchInputRef}
                 onKeyDown={debounce(props.onSearchTodo)}
             />
             <IconButton type="button" className={classes.iconSearch} aria-label="search" onClick={props.onSearchTodo} >
@@ -44,7 +44,7 @@ const SearchTodo = (props: SearchTodoProps) => {
 }
 
 interface SearchTodoProps {
-    searchInput: React.Ref<any> | undefined;
+    searchInputRef: React.Ref<HTMLInputElement> | undefined;
     onSearchTodo: () => void;
 }
 export default SearchTodo;
